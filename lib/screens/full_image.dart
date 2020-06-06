@@ -10,6 +10,8 @@ class FullImage extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         child: PhotoView(
+          maxScale: 1.0,
+          minScale: 0.2,
           imageProvider: NetworkImage(imageurl),
         ));
   }
