@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tur/screens/single.dart';
 
 class Feed extends StatefulWidget {
   @override
@@ -67,7 +68,7 @@ class _FeedState extends State<Feed> {
               ItemCard(),
             ],
           ),
-        )
+        ),
       ],
     ));
   }
@@ -84,7 +85,11 @@ class ItemCard extends StatelessWidget {
       margin: EdgeInsets.all(10),
       child: InkWell(
         onTap: () {
-          print('hi');
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => Single(),
+            ),
+          );
         },
         child: Stack(
           children: [
