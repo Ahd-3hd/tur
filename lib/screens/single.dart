@@ -63,11 +63,12 @@ class Single extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 4,
             child: CarouselSlider(
               options: CarouselOptions(
                 aspectRatio: 16 / 9,
                 height: MediaQuery.of(context).size.height / 2,
+                enlargeCenterPage: true,
               ),
               items: imgList
                   .map(
@@ -83,9 +84,12 @@ class Single extends StatelessWidget {
                       },
                       child: Container(
                         margin: EdgeInsets.all(10),
-                        child: Image.network(
-                          item,
-                          fit: BoxFit.cover,
+                        child: Card(
+                          elevation: 3,
+                          child: Image.network(
+                            item,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
