@@ -89,6 +89,7 @@ class ItemCard extends StatelessWidget {
         child: Stack(
           children: [
             Card(
+              elevation: 5,
               child: Column(
                 children: <Widget>[
                   Container(
