@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tur/screens/feed.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -177,7 +178,13 @@ class _HomeState extends State<Home> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: RaisedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => Feed(),
+                                  ),
+                                );
+                              },
                               color: const Color(0xff396AFC),
                               child: Text(
                                 'SEARCH',
