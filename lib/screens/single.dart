@@ -14,6 +14,7 @@ class Single extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {}),
       body: Column(
         children: [
           Expanded(
@@ -63,45 +64,174 @@ class Single extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 4,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                aspectRatio: 16 / 9,
-                height: MediaQuery.of(context).size.height / 2,
-                enlargeCenterPage: true,
-              ),
-              items: imgList
-                  .map(
-                    (item) => InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => FullImage(
-                              imageurl: item,
+              flex: 4,
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  aspectRatio: 16 / 9,
+                  height: MediaQuery.of(context).size.height / 2,
+                  enlargeCenterPage: true,
+                ),
+                items: imgList
+                    .map(
+                      (item) => InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => FullImage(
+                                imageurl: item,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: Card(
-                          elevation: 3,
-                          child: Image.network(
-                            item,
-                            fit: BoxFit.cover,
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Card(
+                            elevation: 3,
+                            child: Image.network(
+                              item,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              )),
+          Expanded(
+            flex: 3,
+            child: Container(
+              margin: EdgeInsets.all(30),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Icon(Icons.location_on),
+                              Text(
+                                'Location',
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'USD 50,000',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xff396AFC),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs.',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xff396AFC),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.hot_tub,
+                                  size: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '3',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.hotel,
+                                  size: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '3',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.open_with,
+                                  size: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '653 sqft',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.home,
+                                  size: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Villa',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-          Expanded(
-              flex: 4,
-              child: Container(
-                child: Text('sdf'),
-              ))
         ],
       ),
     );
