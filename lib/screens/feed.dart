@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tur/screens/about.dart';
-import 'package:tur/screens/contact.dart';
+import 'package:tur/screens/custom_drawer.dart';
 import 'package:tur/screens/single.dart';
 import 'package:tur/services/get_properties.dart';
 
@@ -59,108 +58,7 @@ class _FeedState extends State<Feed> {
         drawerEdgeDragWidth: 0, // THIS WAY IT WILL NOT OPEN
         key: _drawerKey, // assign key to Scaffold
 
-        drawer: Drawer(
-          child: Container(
-            color: const Color(0xff396AFC),
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                DrawerHeader(
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    child: Image.asset('assets/logo.png'),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                  ),
-                ),
-                ListTile(
-                  title: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.help,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
-                      Text(
-                        'About Us',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => About()),
-                    );
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.question_answer,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
-                      Text(
-                        'Contact',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Contact()),
-                    );
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.thumb_up,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
-                      Text(
-                        'Services',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    // Update the state of the app.
-                    // ...
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
+        drawer: CustomDrawer(),
         body: Column(
           children: <Widget>[
             Expanded(
