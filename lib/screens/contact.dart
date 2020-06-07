@@ -1,7 +1,34 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:tur/screens/about.dart';
 
-class About extends StatelessWidget {
+class Contact extends StatefulWidget {
+  @override
+  _ContactState createState() => _ContactState();
+}
+
+class _ContactState extends State<Contact> {
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  String username;
+  String userphone;
+  String useremail;
+  String usermsg;
+  bool isMessageSent = false;
+  Future sendMsgFunc() async {
+    Response response = await post(
+        'https://www.myturkeyproperty.com/wp-json/contact-form-7/v1/contact-forms/516/feedback',
+        body: {
+          'testrestname': username,
+          'testrestphone': userphone,
+          'testrestemail': useremail,
+          'testrestmsg': usermsg,
+        });
+    setState(() {
+      isMessageSent = json.decode(response.body)['status'] == 'mail_sent';
+    });
+    return json.decode(response.body)['status'] == 'mail_sent';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +164,7 @@ class About extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'About',
+                  'Contact',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontWeight: FontWeight.w700,
@@ -158,87 +185,94 @@ class About extends StatelessWidget {
           ),
           Expanded(
             flex: 5,
-            child: ListView(
-              children: [
-                Container(
-                  margin: EdgeInsets.all(15),
-                  child: Image.asset('assets/logo.png'),
-                ),
-                Card(
-                    child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 15, bottom: 15),
-                        child: Text(
-                          'About My Turkey Property',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 25,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.blueGrey[700],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: Text(
-                          'My Turkey property consists of a team of experts who has a vast range of experience in the property market both in the U.K. and in Turkey. Our aim is to ensure that we help, guide and advise you to seeking your dream home within this diverse and rich country called Turkey.',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.blueGrey[700],
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: Text(
-                          'We offer quality, independent and impartial advice to help you along each step of the property purchase process. We provide you with a portfolio of properties to choose from and information relating to various areas and cities and towns within Turkey so that you can make a well informed decision in choosing a property that fits your requirements and lifestyle. We are also well connected with a good network across Turkey and have a recommended list of people such as lawyers and valuers who can also be brought in to assist at the various stages where they are required. We also have good connections with a variety of lenders if you require this.',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.blueGrey[700],
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: Text(
-                          'Using our contacts, knowledge and experience we will ensure that you receive the best value on your property as we will work directly with the developer/seller and there will be no other third party involved which could in turn increase costs. Our aim is to always provide customers with the best price on the market for their chosen property.',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.blueGrey[700],
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: Text(
-                          'My Turkey Property prides itself in providing good customer care and a full service from start to finish.',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.blueGrey[700],
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                    ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                    prefixIcon: Icon(
+                      Icons.person,
+                    ),
                   ),
-                ))
+                  onChanged: (text) {
+                    setState(() {
+                      username = text;
+                    });
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Phone Number',
+                    prefixIcon: Icon(
+                      Icons.phone,
+                    ),
+                  ),
+                  onChanged: (text) {
+                    setState(() {
+                      userphone = text;
+                    });
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Email Address',
+                    prefixIcon: Icon(
+                      Icons.email,
+                    ),
+                  ),
+                  onChanged: (text) {
+                    setState(() {
+                      useremail = text;
+                    });
+                  },
+                ),
+                TextField(
+                  minLines: 3,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    labelText: 'Message',
+                    prefixIcon: Icon(
+                      Icons.message,
+                    ),
+                  ),
+                  onChanged: (text) {
+                    setState(() {
+                      usermsg = text;
+                    });
+                  },
+                ),
+                RaisedButton(
+                  onPressed: () async {
+                    await sendMsgFunc();
+                  },
+                  color: isMessageSent
+                      ? const Color(0xff1AB260)
+                      : const Color(0xff396AFC),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          isMessageSent ? Icons.check : Icons.send,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          isMessageSent ? 'Message Sent' : 'SEND',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
