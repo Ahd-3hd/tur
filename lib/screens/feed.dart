@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tur/screens/about.dart';
 import 'package:tur/screens/single.dart';
 import 'package:tur/services/get_properties.dart';
 
@@ -95,8 +96,9 @@ class _FeedState extends State<Feed> {
                     ],
                   ),
                   onTap: () {
-                    // Update the state of the app.
-                    // ...
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => About()),
+                    );
                   },
                 ),
                 ListTile(
