@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tur/screens/single.dart';
+import 'package:tur/services/get_properties.dart';
 
 class Feed extends StatefulWidget {
   @override
@@ -7,6 +8,20 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
+  dynamic properties;
+  void getData() async {
+    dynamic data = await GetProperties().getData();
+    setState(() {
+      properties = data;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,25 +74,26 @@ class _FeedState extends State<Feed> {
           ),
         ),
         Expanded(
-          flex: 6,
-          child: ListView(
-            children: [
-              ItemCard(),
-              ItemCard(),
-              ItemCard(),
-              ItemCard(),
-            ],
-          ),
-        ),
+            flex: 6,
+            child: properties != null
+                ? ListView(
+                    children: properties
+                        .map<Widget>((property) => ItemCard(
+                              data: property,
+                            ))
+                        .toList(),
+                  )
+                : Center(
+                    child: Text('Loading ..'),
+                  )),
       ],
     ));
   }
 }
 
 class ItemCard extends StatelessWidget {
-  const ItemCard({
-    Key key,
-  }) : super(key: key);
+  final dynamic data;
+  const ItemCard({Key key, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +117,7 @@ class ItemCard extends StatelessWidget {
                     height: MediaQuery.of(context).size.height / 3.5,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/test.jpg'),
+                        image: NetworkImage(data['acf']['image_one']),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -112,7 +128,7 @@ class ItemCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          'Title Should Be Here',
+                          data['title']['rendered'],
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w700,
@@ -123,7 +139,7 @@ class ItemCard extends StatelessWidget {
                           children: <Widget>[
                             Icon(Icons.location_on),
                             Text(
-                              'Location',
+                              data['acf']['location'],
                               style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.w700),
@@ -136,7 +152,7 @@ class ItemCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs.',
+                      data['title']['rendered'],
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w700,
@@ -159,7 +175,7 @@ class ItemCard extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                '3',
+                                data['acf']['bathrooms'],
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.w500,
@@ -178,7 +194,7 @@ class ItemCard extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                '3',
+                                data['acf']['bedrooms'],
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.w500,
@@ -197,7 +213,7 @@ class ItemCard extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                '653 sqft',
+                                data['acf']['size'],
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.w500,
@@ -216,7 +232,7 @@ class ItemCard extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Villa',
+                                data['acf']['type'],
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.w500,
@@ -238,7 +254,7 @@ class ItemCard extends StatelessWidget {
                 margin: EdgeInsets.all(10),
                 padding: EdgeInsets.all(10),
                 child: Text(
-                  'USD 50,000',
+                  '${data['acf']['base_currency']} ${data['acf']['price']}',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -258,13 +274,15 @@ class ItemCard extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Image.asset(
-                'assets/passport.png',
-                width: MediaQuery.of(context).size.width / 5.5,
-              ),
-            ),
+            int.parse(data['acf']['price']) > 20000
+                ? Align(
+                    alignment: Alignment.topLeft,
+                    child: Image.asset(
+                      'assets/passport.png',
+                      width: MediaQuery.of(context).size.width / 5.5,
+                    ),
+                  )
+                : SizedBox.shrink()
           ],
         ),
       ),
