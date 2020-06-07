@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tur/screens/full_image.dart';
+import 'package:tur/screens/message.dart';
 
 class Single extends StatelessWidget {
   final dynamic data;
@@ -9,7 +10,15 @@ class Single extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {}),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => SendMessage(
+              propertyTitle: data['title']['rendered'],
+            ),
+          ),
+        );
+      }),
       body: Column(
         children: [
           Expanded(
