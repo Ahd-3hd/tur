@@ -49,74 +49,108 @@ class _FeedState extends State<Feed> {
     getData();
   }
 
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        drawerEdgeDragWidth: 0, // THIS WAY IT WILL NOT OPEN
+        key: _drawerKey, // assign key to Scaffold
+
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
             children: <Widget>[
-              FlatButton.icon(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 20.0,
-                  color: const Color(0xff396AFC),
-                ),
-                label: Text(
-                  'Back',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20.0,
-                    color: const Color(0xff396AFC),
-                  ),
+              DrawerHeader(
+                child: Text('Drawer Header'),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
                 ),
               ),
-              Text(
-                'Explore',
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20.0,
-                  color: const Color(0xff396AFC),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
+              ListTile(
+                title: Text('Item 1'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
                 },
-                icon: Icon(
-                  Icons.menu,
-                  size: 30.0,
-                  color: const Color(0xff396AFC),
-                ),
+              ),
+              ListTile(
+                title: Text('Item 2'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
               ),
             ],
           ),
         ),
-        Expanded(
-            flex: 6,
-            child: extractedData != null
-                ? isContainingResult
-                    ? ListView(
-                        children: extractedData
-                            .map<Widget>((property) => ItemCard(
-                                  data: property,
-                                ))
-                            .toList(),
-                      )
-                    : Text('No Results Found, Please Refine Your Search')
-                : Center(
-                    child: Text('Loading ..'),
-                  )),
-      ],
-    ));
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  FlatButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      size: 20.0,
+                      color: const Color(0xff396AFC),
+                    ),
+                    label: Text(
+                      'Back',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20.0,
+                        color: const Color(0xff396AFC),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Explore',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20.0,
+                      color: const Color(0xff396AFC),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => _drawerKey.currentState.openDrawer(),
+                    icon: Icon(
+                      Icons.menu,
+                      size: 30.0,
+                      color: const Color(0xff396AFC),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+                flex: 6,
+                child: extractedData != null
+                    ? isContainingResult
+                        ? ListView(
+                            children: extractedData
+                                .map<Widget>((property) => ItemCard(
+                                      data: property,
+                                    ))
+                                .toList(),
+                          )
+                        : Text('No Results Found, Please Refine Your Search')
+                    : Center(
+                        child: Text('Loading ..'),
+                      )),
+          ],
+        ));
   }
 }
 
