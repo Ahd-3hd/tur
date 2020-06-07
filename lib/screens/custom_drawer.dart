@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tur/screens/about.dart';
 import 'package:tur/screens/contact.dart';
+import 'package:tur/screens/services.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -103,8 +104,9 @@ class CustomDrawer extends StatelessWidget {
                 ],
               ),
               onTap: () {
-                // Update the state of the app.
-                // ...
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => Services()),
+                );
               },
             ),
           ],
