@@ -3,17 +3,44 @@ import 'package:tur/screens/single.dart';
 import 'package:tur/services/get_properties.dart';
 
 class Feed extends StatefulWidget {
+  final List searchValues;
+  Feed({this.searchValues});
   @override
   _FeedState createState() => _FeedState();
 }
 
 class _FeedState extends State<Feed> {
   dynamic properties;
+  dynamic extractedData;
+  bool isContainingResult;
   void getData() async {
     dynamic data = await GetProperties().getData();
     setState(() {
       properties = data;
     });
+    await filterProperties();
+  }
+
+  Future filterProperties() async {
+    List newData = properties.where((entry) {
+      List results = [];
+
+      widget.searchValues.forEach((test) {
+        if (test[0] == 'price') {
+          results.add(int.parse(entry['acf'][test[0]]) <=
+              int.parse(test[1].replaceAll(new RegExp(r'[^\w\s]+'), '')));
+        } else {
+          results.add(entry['acf'][test[0]] == test[1]);
+        }
+      });
+
+      return !results.contains(false);
+    }).toList();
+    setState(() {
+      extractedData = newData;
+      isContainingResult = extractedData.length > 0;
+    });
+    print(newData.length);
   }
 
   @override
@@ -75,14 +102,16 @@ class _FeedState extends State<Feed> {
         ),
         Expanded(
             flex: 6,
-            child: properties != null
-                ? ListView(
-                    children: properties
-                        .map<Widget>((property) => ItemCard(
-                              data: property,
-                            ))
-                        .toList(),
-                  )
+            child: extractedData != null
+                ? isContainingResult
+                    ? ListView(
+                        children: extractedData
+                            .map<Widget>((property) => ItemCard(
+                                  data: property,
+                                ))
+                            .toList(),
+                      )
+                    : Text('No Results Found, Please Refine Your Search')
                 : Center(
                     child: Text('Loading ..'),
                   )),

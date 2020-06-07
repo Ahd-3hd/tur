@@ -9,7 +9,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String locationValue;
   String typeValue;
-  String maxPriceValue;
+  String priceValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,9 +77,15 @@ class _HomeState extends State<Home> {
                                 color: const Color(0xff396AFC),
                               ),
                               onChanged: (String newValue) {
-                                setState(() {
-                                  locationValue = newValue;
-                                });
+                                if (newValue == 'Any') {
+                                  setState(() {
+                                    locationValue = null;
+                                  });
+                                } else {
+                                  setState(() {
+                                    locationValue = newValue;
+                                  });
+                                }
                               },
                               items: <String>[
                                 'Any',
@@ -112,9 +118,15 @@ class _HomeState extends State<Home> {
                                 color: const Color(0xff396AFC),
                               ),
                               onChanged: (String newValue) {
-                                setState(() {
-                                  typeValue = newValue;
-                                });
+                                if (newValue == 'Any') {
+                                  setState(() {
+                                    typeValue = null;
+                                  });
+                                } else {
+                                  setState(() {
+                                    typeValue = newValue;
+                                  });
+                                }
                               },
                               items: <String>[
                                 'Any',
@@ -139,7 +151,7 @@ class _HomeState extends State<Home> {
                             padding: const EdgeInsets.all(8.0),
                             child: DropdownButton<String>(
                               isExpanded: true,
-                              value: maxPriceValue,
+                              value: priceValue,
                               icon: Icon(Icons.arrow_drop_down),
                               iconSize: 24,
                               elevation: 16,
@@ -150,12 +162,19 @@ class _HomeState extends State<Home> {
                                 color: const Color(0xff396AFC),
                               ),
                               onChanged: (String newValue) {
-                                setState(() {
-                                  maxPriceValue = newValue;
-                                });
+                                if (newValue == 'Any') {
+                                  setState(() {
+                                    priceValue = null;
+                                  });
+                                } else {
+                                  setState(() {
+                                    priceValue = newValue;
+                                  });
+                                }
                               },
                               items: <String>[
                                 'Any',
+                                '10',
                                 '50,000',
                                 '100,000',
                                 '200,000',
@@ -179,9 +198,23 @@ class _HomeState extends State<Home> {
                             padding: const EdgeInsets.all(8.0),
                             child: RaisedButton(
                               onPressed: () {
+                                List searchValues = [];
+                                locationValue != null
+                                    ? searchValues
+                                        .add(['location', locationValue])
+                                    : null;
+                                typeValue != null
+                                    ? searchValues.add(['type', typeValue])
+                                    : null;
+                                priceValue != null
+                                    ? searchValues.add(['price', priceValue])
+                                    : null;
+
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => Feed(),
+                                    builder: (context) => Feed(
+                                      searchValues: searchValues,
+                                    ),
                                   ),
                                 );
                               },
