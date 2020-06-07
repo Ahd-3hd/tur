@@ -10,15 +10,20 @@ class Single extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => SendMessage(
-              propertyTitle: data['title']['rendered'],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => SendMessage(
+                propertyTitle: data['title']['rendered'],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+        child: Icon(
+          Icons.message,
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
