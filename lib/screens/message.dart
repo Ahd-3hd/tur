@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
+import 'package:tur/screens/custom_drawer.dart';
+
 class SendMessage extends StatefulWidget {
   final String propertyTitle;
   SendMessage({this.propertyTitle});
@@ -15,6 +17,7 @@ class _SendMessageState extends State<SendMessage> {
   String useremail;
   String usermsg;
   bool isMessageSent = false;
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
   Future sendMsgFunc() async {
     Response response = await post(
@@ -35,6 +38,8 @@ class _SendMessageState extends State<SendMessage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _drawerKey,
+      drawer: CustomDrawer(),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -71,9 +76,7 @@ class _SendMessageState extends State<SendMessage> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => _drawerKey.currentState.openDrawer(),
                   icon: Icon(
                     Icons.menu,
                     size: 30.0,
