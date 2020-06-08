@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tur/screens/about.dart';
 import 'package:tur/screens/contact.dart';
 import 'package:tur/screens/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -107,6 +108,38 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => Services()),
                 );
+              },
+            ),
+            ListTile(
+              title: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.web,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                  Text(
+                    'Website',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () async {
+                const url = 'https://myturkeyproperty.com';
+
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
               },
             ),
           ],
